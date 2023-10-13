@@ -1,0 +1,23 @@
+.track {
+    border-bottom: 1px dotted white;
+    display: flex;
+    justify-content: space-between;
+}
+
+.trackText {
+
+
+}
+
+.song {
+    font-weight: 600;
+}
+
+.artist {
+    font-weight: 200;
+}
+
+.trackMark {
+    font-size: 1rem;
+    margin-bottom: 0;;
+}

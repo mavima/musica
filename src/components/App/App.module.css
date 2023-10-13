@@ -1,0 +1,25 @@
+/* Universal Styles */
+
+html {
+    font-size: 18px;
+  }
+  
+  html,
+  body {
+    margin: 0;
+  }
+  
+  @media only screen and (max-width: 560px) {
+    html {
+      font-size: 15px;
+    }
+  }
+  
+  
+  /* App Styles */
+
+  .container {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+  }
