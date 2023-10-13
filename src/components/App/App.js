@@ -8,27 +8,32 @@ const musicList = [
   {
       name: "Old Song",
       artist: "Elvis",
-      key: 1
+      album: "E-album",
+      id: 1
   },
   {
       name: "Bad Song",
       artist: "Toto",
-      key: 2
+      album: "O-album",
+      id: 2
   },
   {
       name: "Good Song",
       artist: "Sting",
-      key: 3
+      album: "S-album",
+      id: 3
   },
   {
       name: "New Song",
       artist: "Taylor Swift",
-      key: 4
+      album: "T-album",
+      id: 4
   },
   {
       name: "My Song",
       artist: "Maria",
-      key: 5
+      album: "M-album",
+      id: 5
   },
 ]
 
@@ -36,20 +41,61 @@ function App() {
 
   const [track, setTrack] = useState();
   const [myList, setMyList] = useState([]);
+  const [results, setResults] = useState([]);
+  const [listName, setListName] = useState("My playlist");
+  const [term, setTerm] = useState("");
+
+  const handleTermChange = (event) => {
+      setTerm(event.target.value);
+  }
+
+  const addToList = (event) => {
+    const TargetId = parseInt(event.target.dataset.id);
+    const mySongs = myList;
+    const songs = results;
+    if (mySongs.find(song => song.id === TargetId)) {
+        return;
+    } else {
+        songs.find((song) =>  {
+            if (song.id === TargetId) {
+              setMyList((prev) => {
+                return [song, ...prev];
+            })};
+        });
+    } 
+}
 
   const removeFromList = (event) => {
-    const id = parseInt(event.target.dataset.id);
+    const targetId = parseInt(event.target.dataset.id);
     setMyList((prev) => {
-      return prev.filter((song) => song.key !== id);
+      return prev.filter((song) => song.id !== targetId);
     });
   };
 
   return (
     <div className="App">
-      <SearchBar musicList = {musicList} />
+      <SearchBar 
+        musicList = {musicList} 
+        handleTermChange={handleTermChange} 
+        setTerm = {setTerm} 
+        term = {term}
+        results = {results}
+        setResults = {setResults}
+      />
       <div className={styles.container}>
-        <Results musicList = {musicList} myList = {myList} setMyList = {setMyList} removeFromList = {removeFromList}/>
-        <Playlist myList = {myList} setMyList = {setMyList} removeFromList = {removeFromList}/>
+        <Results 
+          results = {results} 
+          addToList = {addToList} 
+          removeFromList = {removeFromList}
+        />
+        <Playlist 
+          myList = {myList} 
+          removeFromList = {removeFromList} 
+          listName = {listName} 
+          setListName = {setListName}
+          handleTermChange = {handleTermChange}
+          term = {term}
+        />
       </div>
     </div>
   );

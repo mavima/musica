@@ -4,3 +4,29 @@
     width: 100%;
     padding: 1rem;
 }
+
+.nameform input{
+    border-radius: 5px;
+    padding: 4px;
+    border: 1px solid gray;
+    max-width: 250px;
+    margin-right: 1rem;
+}
+
+.playlist button {
+    border-radius: 5px;
+    padding: 4px;
+    background-color: white;
+    border: 1px solid #48267e;
+    color: #48267e;
+    font-weight: 800;
+    max-width: 200px;
+    margin-top: 1rem;
+}
+
+.playlist button:hover {
+
+    background-color: #48267e;
+    border: 1px solid white;
+    color: white;
+}

@@ -3,31 +3,28 @@ import styles from "./SearchBar.module.css";
 
 
 
-const SearchBar = () => {
-
-    const [term, setTerm] = useState();
+const SearchBar = (props) => {
 
     const handleTermChange = (event) => {
-        setTerm(event.target.value);
+        props.setTerm(event.target.value);
     }
 
-    const searchMusic = (musicList, name, artist) => {
-        const filteredList = musicList.filter((e) => {
-            return e.name === name || e.artist === artist
-        });
+    const searchMusic = (term) => {
+        console.log(props.musicList);
+        const filteredList = props.musicList.filter((song) => song.name.toLowerCase().includes(term.toLowerCase()) || song.artist.toLowerCase().includes(term.toLowerCase()));
         return filteredList;
     }
 
     const handleSearch = (event) => {
         event.preventDefault();
-        const result = searchMusic(term);
-        console.log(result);
+        const songs = searchMusic(props.term);
+        props.setResults(songs);
       };
 
     return (
         <div className={styles.searchHeader} style={{ backgroundImage: "linear-gradient(rgba(80, 79, 87, 0.6),rgba(50, 38, 126, 0.2)), url(/images/bandbgp.jpg)" }}>
             <div className={styles.searchbar} >
-                <form className={styles.searchform}>
+                <form className={styles.searchform} onSubmit={handleSearch}>
                     <input placeholder="Search" onChange={handleTermChange}></input>
                     <button type="submit">Let's Go</button>
                 </form>
