@@ -19,5 +19,6 @@
 
 .trackMark {
     font-size: 1rem;
-    margin-bottom: 0;;
+    margin-bottom: 0;
+    padding: 3px;
 }
