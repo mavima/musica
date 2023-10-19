@@ -4,9 +4,9 @@
     justify-content: space-between;
 }
 
-.trackText {
-
-
+.trackText a {
+    text-decoration: none;
+    color: #dbd7f3;
 }
 
 .song {
@@ -20,5 +20,10 @@
 .trackMark {
     font-size: 1rem;
     margin-bottom: 0;
-    padding: 3px;
+    padding: 2px;
+    border: 1px solid white;
+    border-radius: 50%;
+    width: 1rem;
+    text-align: center;
+    cursor: pointer;
 }

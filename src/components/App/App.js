@@ -6,44 +6,6 @@ import Playlist from '../Playlist/Playlist';
 // import SpotifySearch from './/../../utils/SpotifySearch';
 
 
-const musicList = [
-  {
-      name: "Amores de Barra",
-      artist: "Ella Baila Sola",
-      album: "E-album",
-      id: 1,
-      uri: 'https://open.spotify.com/track/2fa3F4PVj2GR5SbcIMI65Y?si=11f60a43eadc4cbd'
-  },
-  {
-      name: "Tú",
-      artist: "Shakira",
-      album: "Donde están los ladrones",
-      id: 2,
-      uri: 'https://open.spotify.com/track/6ZEVQ2whiJvhjCNAOJ0DC3?si=c7b28e9b0760403c'
-  },
-  {
-      name: "Fragile",
-      artist: "Sting",
-      album: "Nothing like the sun",
-      id: 3,
-      uri: 'https://open.spotify.com/track/5oE6INocVL9viDow5y8QNM?si=0d0f7545c36945f9'
-  },
-  {
-      name: "Alba",
-      artist: "Antonio Flores",
-      album: "Cosas Mías",
-      id: 4,
-      uri: 'https://open.spotify.com/track/6uojMoKuVkIVEeqH4JCBAr?si=fd00f47a841f40ad'
-  },
-  {
-      name: "Rayando el Sol",
-      artist: "Maná",
-      album: "Falta Amor",
-      id: 5,
-      uri: 'https://open.spotify.com/track/4Ofg5uuH7qqDIXpAJMpXZV?si=e90cf95cdf454068'
-  },
-]
-
 function App() {
 
   const CLIENT_ID = process.env.REACT_APP_SPOTIFY_ID;
@@ -120,15 +82,14 @@ function App() {
     // })
 
 
-  const addToList = (event) => {
-    const TargetId = parseInt(event.target.dataset.id);
-    const mySongs = myList;
+  const addToList = (targetId) => {
     const songs = results;
-    if (mySongs.find(song => song.id === TargetId)) {
+    if (myList.find(song => song.id === targetId)) {
+        alert("It's already on your list");
         return;
     } else {
         songs.find((song) =>  {
-            if (song.id === TargetId) {
+            if (song.id === targetId) {
               setMyList((prev) => {
                 return [song, ...prev];
             })};
@@ -136,8 +97,7 @@ function App() {
     } 
 }
 
-  const removeFromList = (event) => {
-    const targetId = parseInt(event.target.dataset.id);
+  const removeFromList = (targetId) => {
     setMyList((prev) => {
       return prev.filter((song) => song.id !== targetId);
     });
@@ -149,7 +109,6 @@ function App() {
       <SearchBar 
         SpotifySearch = {SpotifySearch}
         accessToken = {accessToken}
-        musicList = {musicList} 
         handleTermChange={handleTermChange} 
         setTerm = {setTerm} 
         term = {term}

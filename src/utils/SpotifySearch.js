@@ -38,13 +38,13 @@ const SpotifySearch = async (term, accessToken) => {
     const trackID = await fetch(`https://api.spotify.com/v1/search?q=${term}&type=track`, resultParameters)
     .then(response => response.json())
     .then((data) => {
-        return data.tracks.items[0].id
-        // return data.tracks.items.map((track) => ({
-        //         name: track.name,
-        //         artist: track.artists[0].name,
-        //         album: track.album.name,
-        //         uri: track.uri
-        //     }));
+
+         data.tracks.items.map((track) => ({
+                name: track.name,
+                artist: track.artists[0].name,
+                album: track.album.name,
+                uri: track.uri
+            }));
         
     });
     return responseAlbums;
