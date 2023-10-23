@@ -8,8 +8,9 @@
 .searchbar {
     width: 30%;
     margin: auto;
-    padding-top: 100px;
+    padding-top: 50px;
 }
+
 
 .searchform {
     display: flex;

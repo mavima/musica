@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styles from "./App.module.css";
 import SearchBar from '../SearchBar/SearchBar';
 import Results from '../Results/Results';
 import Playlist from '../Playlist/Playlist';
-// import SpotifySearch from './/../../utils/SpotifySearch';
-
+import Spotify from "../../utils/Spotify";
 
 function App() {
 
@@ -14,11 +13,10 @@ function App() {
   const [track, setTrack] = useState();
   const [myList, setMyList] = useState([]);
   const [results, setResults] = useState([]);
-  const [listName, setListName] = useState("My playlist");
+  const [listName, setListName] = useState("My new playlist");
   const [term, setTerm] = useState("");
   const [accessToken, setAccessToken] = useState("");
-  const [albums, setAlbums] = useState([]);
-
+  // const [albums, setAlbums] = useState([]);
 
   useEffect(() => {
     const authParameters = {
@@ -46,29 +44,23 @@ function App() {
     },
 
 }
-  const SpotifySearch = {
-  search (term, accessToken) {
-      return fetch(`https://api.spotify.com/v1/search?q=${term}&type=track`, resultParameters)
-      .then((response) => {
-      return response.json();
-  })
-  .then((jsonResponse) => {
-      if (jsonResponse.tracks) {
-        console.log(jsonResponse.tracks.items[0].name);
-          return jsonResponse.tracks.items.map((track) => ({
-              id: track.id,
-              // imageSrc: track.image_url,
-              name: track.name,
-              artist: track.artists[0].name,
-              album: track.album.name,
-              uri: track.uri
-          }));
-      } else {
-          return;
-      }
-  });
-  }}
 
+  const search = useCallback((term) => {
+    Spotify.search(term).then(setResults);
+  }, []);
+  
+  const updateName = useCallback((name) => {
+    setListName(name);
+  }, []);
+
+  const savePlaylist = useCallback(() => {
+    const trackUris = myList.map((track) => track.uri); 
+    Spotify.savePlaylist(listName, trackUris).then(() => {
+      setListName(listName);
+      setMyList([]);
+    });
+  }, [listName, myList]);
+  
     // Get request using search to get the Artist / track / album ID
     // const artistID = await fetch(`https://api.spotify.com/v1/search?q=${term}&type=artist`, resultParameters)
     // .then(response => response.json())
@@ -107,15 +99,14 @@ function App() {
     <div className="App">
 
       <SearchBar 
-        SpotifySearch = {SpotifySearch}
         accessToken = {accessToken}
         handleTermChange={handleTermChange} 
         setTerm = {setTerm} 
         term = {term}
         results = {results}
         setResults = {setResults}
-        track = {track}
-        setTrack = {setTrack}
+        onSearch = {search}
+        onAdd = {addToList}
       />
       <div className={styles.container}>
         <Results 
@@ -126,10 +117,10 @@ function App() {
         <Playlist 
           myList = {myList} 
           removeFromList = {removeFromList} 
+          onNameChange = {updateName}
           listName = {listName} 
           setListName = {setListName}
-          handleTermChange = {handleTermChange}
-          term = {term}
+          savePlaylist = {savePlaylist}
         />
       </div>
     </div>
